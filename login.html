@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تسجيل دخول الأدمن - قاعدة بيانات الأبناء</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      min-height: 100vh;
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Tajawal', 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #6366f1 0%, #e11d48 100%);
+      background-attachment: fixed;
+      animation: bgmove 12s infinite alternate linear;
+      display: flex; flex-direction: column;
+    }
+    @keyframes bgmove {
+      0% { background-position: 0% 100%; }
+      100% { background-position: 100% 0%; }
+    }
+    header, footer { background: none; box-shadow: none; }
+    .main-content {
+      flex: 1 0 auto;
+      max-width: 420px;
+      margin: 44px auto 16px auto;
+      background: linear-gradient(120deg,#fff 80%,#f3e8ff 100%);
+      border-radius: 32px;
+      box-shadow: 0 7px 38px #6366f188, 0 2px 16px #e11d4899;
+      padding: 32px 20px 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    h2 {
+      text-align:center;
+      margin-bottom:20px;
+      color:#e11d48;
+      text-shadow: 0 2px 12px #f59e4288;
+      font-size: 1.4em;
+      letter-spacing: .5px;
+      font-weight: 900;
+    }
+    form {
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    label {
+      font-weight: 700;
+      font-size: 1.08em;
+      margin-bottom: 5px;
+      color: #6366f1;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 8px #818cf822;
+    }
+    input {
+      padding: 11px;
+      border-radius: 11px;
+      border: 2px solid #c7d2fe;
+      font-family: 'Tajawal', 'Cairo', sans-serif;
+      font-size: 1.1em;
+      background: #f8fbff;
+      transition: box-shadow 0.23s, border 0.23s;
+      box-sizing: border-box;
+      outline: none;
+      box-shadow: 0 2px 8px #818cf822;
+      margin-bottom: 7px;
+    }
+    input:focus {
+      border: 2px solid #e11d48;
+      background: #ffe4e6;
+      box-shadow: 0 2px 14px #e11d4888, 0 1px 2px #fff;
+    }
+    .submit-btn {
+      background: linear-gradient(90deg,#e11d48 0%, #f59e42 100%);
+      color: white;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.08em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.17s cubic-bezier(.4,2,.4,1);
+      box-shadow: 0 4px 18px #e11d4844, 0 1px 10px #6366f122;
+      letter-spacing: 1px;
+      padding: 13px 10px;
+      margin-top: 12px;
+      outline: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-btn:active, .submit-btn:focus {
+      background: linear-gradient(90deg, #f59e42 0%, #e11d48 100%);
+      color: #e11d48;
+      box-shadow: 0 2px 6px #e11d4888, 0 0px 0 #fff;
+      transform: scale(0.97);
+    }
+    .msg {
+      text-align:center;
+      font-size:1.07em;
+      margin:10px 0 0 0;
+      min-height:24px;
+      font-weight:bold;
+      color: #e11d48;
+      text-shadow: 0 1px 8px #e11d4822;
+    }
+    .msg.ok { color: #22c55e; }
+    .msg.err { color: #e11d48; }
+    a {color:#6366f1;text-decoration:underline;}
+    footer {
+      background: linear-gradient(90deg,#6366f1 60%, #5eead4 100%);
+      font-size: 10px;
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+      text-align: center;
+      padding: 22px 10px 16px 10px;
+      border-radius: 0 0 24px 24px;
+      width: 100%;
+      margin: 0;
+      flex-shrink: 0;
+      box-shadow: 0 -2px 16px #6366f199;
+      letter-spacing: 1.1px;
+      z-index: 10;
+      margin-top: auto;
+      font-weight: 700;
+      text-shadow: 0 2px 6px #818cf8cc;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+</head>
+<body>
+  <header></header>
+  <div class="main-content">
+    <h2>دخول الأدمن لعرض قاعدة البيانات</h2>
+    <form id="loginForm" autocomplete="off">
+      <label for="email">البريد الإلكتروني</label>
+      <input type="email" id="email" required placeholder="admin@email.com" />
+      <label for="password">كلمة السر</label>
+      <input type="password" id="password" required minlength="6" autocomplete="current-password" />
+      <button type="submit" class="submit-btn">تسجيل الدخول</button>
+      <div id="msg" class="msg"></div>
+    </form>
+  </div>
+  <footer>
+    جميع الحقوق محفوظة © 2025 Genius Tech Co
+  </footer>
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyD3FvIT1JscjY35XozIq-3yCfaZf4awa6k",
+      authDomain: "genz-database.firebaseapp.com",
+      databaseURL: "https://genz-database-default-rtdb.firebaseio.com",
+      projectId: "genz-database",
+      storageBucket: "genz-database.firebasestorage.app",
+      messagingSenderId: "624128432502",
+      appId: "1:624128432502:web:c41ab8052f2f8fd7e60257",
+      measurementId: "G-BW2MFF4VLE"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    document.getElementById("loginForm").onsubmit = async function(e) {
+      e.preventDefault();
+      const msg = document.getElementById("msg");
+      msg.textContent = "";
+      msg.className = "msg";
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        msg.textContent = "تم تسجيل الدخول بنجاح...";
+        msg.className = "msg ok";
+        setTimeout(()=>{ window.location.href = "database.html"; }, 1000);
+      } catch (err) {
+        msg.textContent = "بيانات الدخول غير صحيحة أو هناك مشكلة!";
+        msg.className = "msg err";
+      }
+    };
+    auth.onAuthStateChanged(function(user){
+      if(user) window.location.href = "database.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تسجيل بيانات الأبناء - قاعدة بيانات الكمبوند</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      box-sizing: border-box;
+      font-family: 'Tajawal', 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #f59e42 0%, #5eead4 100%);
+      background-attachment: fixed;
+      animation: bgmove 12s infinite alternate linear;
+      display: flex;
+      flex-direction: column;
+    }
+    @keyframes bgmove {
+      0% { background-position: 0% 100%; }
+      100% { background-position: 100% 0%; }
+    }
+    header {
+      background: linear-gradient(90deg, #6366f1 0%, #5eead4 100%);
+      box-shadow: 0 8px 32px 0 #0004, 0 2px 12px #22d3ee99;
+      border-radius: 0 0 36px 36px;
+      padding: 32px 10px 18px 10px;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      margin-bottom: 0;
+    }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      width: 100%;
+    }
+    .header-title {
+      text-align: right;
+      flex: 1 1 0%;
+      padding-right: 30px;
+    }
+    .kenz-logo {
+      width: 112px; height: 112px;
+      background: linear-gradient(135deg, #fff 60%, #e0e7ff 100%);
+      border-radius: 50%;
+      box-shadow: 0 6px 20px #22d3ee66, 0 1px 1px #0002;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin: 0 0 0 14px;
+      flex-shrink: 0;
+      border: 6px solid #22d3ee;
+      transform: translateY(10px);
+    }
+    .kenz-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+      display: block;
+      filter: drop-shadow(0 2px 16px #22d3eecc);
+      background: #e0e7ff;
+    }
+    header h1 {
+      margin: 0 0 6px 0;
+      font-size: 2.2em;
+      color: #090909e7;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 18px #5eead4bb, 0 1px 0 #fff4;
+      filter: drop-shadow(0 2px 12px #818cf8cc);
+    }
+    header h2 {
+      margin: 5px 0 0;
+      font-size: 1.15em;
+      color: #090909e7;
+      font-weight: 700;
+      text-shadow: 0 1px 8px #22d3ee88, 0 2px 1px #fff3;
+      letter-spacing: 1px;
+      text-align: center;
+      filter: drop-shadow(0 1px 6px #818cf8aa);
+    }
+    .main-content {
+      flex: 1 0 auto;
+      width: 100vw;
+      max-width: 100vw;
+      margin: 0;
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 320px;
+      justify-content: flex-start;
+    }
+    .form-box {
+      background: linear-gradient(120deg,#fff 80%,#f3e8ff 100%);
+      margin: 38px auto 18px auto;
+      max-width: 700px;
+      width: 90vw;
+      min-width: 320px;
+      border-radius: 32px;
+      box-shadow: 0 6px 36px #c7d2fe88, 0 2px 10px #22d3ee44;
+      padding: 30px 22px 34px 22px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      transform: translateY(14px);
+    }
+    form {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    label {
+      font-weight: 700;
+      font-size: 1.07em;
+      margin-bottom: 6px;
+      color: #0ea5e9;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 8px #818cf822;
+    }
+    input, select, textarea {
+      padding: 12px;
+      border-radius: 12px;
+      border: 2px solid #c7d2fe;
+      font-family: 'Tajawal', 'Cairo', sans-serif;
+      font-size: 1.1em;
+      margin-bottom: 8px;
+      background: #f8fbff;
+      transition: box-shadow 0.23s, border 0.23s;
+      box-sizing: border-box;
+      outline: none;
+      box-shadow: 0 2px 8px #818cf822;
+    }
+    input:focus, select:focus, textarea:focus {
+      border: 2px solid #6366f1;
+      background: #e0e7ff;
+      box-shadow: 0 2px 16px #818cf844, 0 1px 2px #fff;
+    }
+    .submit-btn {
+      background: linear-gradient(90deg,#6366f1 0%, #5eead4 100%);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 1.08em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.17s cubic-bezier(.4,2,.4,1);
+      box-shadow: 0 4px 18px #6366f144, 0 1px 10px #22d3ee22;
+      letter-spacing: 1px;
+      padding: 13px 20px;
+      margin-top: 12px;
+      outline: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-btn:active, .submit-btn:focus {
+      background: linear-gradient(90deg, #5eead4 0%, #6366f1 100%);
+      color: #0ea5e9;
+      box-shadow: 0 2px 6px #6366f188, 0 0px 0 #fff;
+      transform: scale(0.97);
+    }
+    .msg {
+      text-align: center;
+      font-size: 1.07em;
+      margin: 16px 0 0 0;
+      min-height: 24px;
+      font-weight: bold;
+      color: #0ea5e9;
+      text-shadow: 0 1px 8px #818cf822;
+    }
+    .msg.ok { color: #22c55e; }
+    .msg.err { color: #e11d48; }
+    .action-btn {
+      background: linear-gradient(90deg,#6366f1 0%, #22d3ee 100%);
+      color: #fff;
+      border: none;
+      border-radius: 18px;
+      font-size: 1.05em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(.4,2,.4,1);
+      box-shadow: 0 5px 22px #22d3ee33, 0 1px 6px #818cf833;
+      letter-spacing: 1px;
+      padding: 14px 22px;
+      margin: 18px 0 0 0;
+      text-decoration: none;
+      display: inline-block;
+      outline: none;
+      position: relative;
+      overflow: hidden;
+      margin-left: 5px;
+    }
+    footer {
+      background: linear-gradient(90deg,#6366f1 60%, #5eead4 100%);
+      font-size: 10px;
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+      text-align: center;
+      padding: 22px 10px 16px 10px;
+      border-radius: 0 0 24px 24px;
+      width: 100%;
+      margin: 0;
+      flex-shrink: 0;
+      box-shadow: 0 -2px 16px #6366f199;
+      letter-spacing: 1.1px;
+      z-index: 10;
+      margin-top: auto;
+      font-weight: 700;
+      text-shadow: 0 2px 6px #818cf8cc;
+    }
+    @media (max-width: 900px) {
+      .form-box { max-width: 98vw; width: 98vw; min-width: unset; }
+      form { max-width: 98vw; }
+    }
+    @media (max-width: 700px) {
+      .kenz-logo { width: 64px; height: 64px;}
+      .header-row { gap: 8px; }
+      header h1 { font-size: 1.16em; }
+      header h2 { font-size: 0.94em; }
+      .form-box { max-width: 98vw; width: 98vw; padding: 15px 4vw 19px 4vw; }
+      form { max-width: 98vw; }
+    }
+    @media (max-width: 500px) {
+      .header-row { gap: 4px; }
+      .header-title { padding-right: 5px; }
+      .kenz-logo { width: 45px; height: 45px; margin: 0 0 0 3px;}
+      header h1 { font-size: 0.9em; }
+      header h2 { font-size: .75em; }
+      header { padding: 12px 2px 10px 2px; border-radius: 0 0 10px 10px; }
+      .form-box {padding: 10px 1vw 13px 1vw; max-width: 99vw; width: 99vw;}
+      .action-btn { font-size: 0.95em; padding: 11px 5vw;}
+      form { max-width: 99vw; }
+    }
+  </style>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <div class="header-title">
+        <h1>قاعدة بيانات أبناء الكمبوند</h1>
+        <h2>استمارة تسجيل بيانات الأبناء</h2>
+      </div>
+    </div>
+  </header>
+  <div class="main-content">
+    <div class="form-box">
+      <form id="childForm" autocomplete="off">
+        <label for="childName">اسم الطفل/ة بالكامل *</label>
+        <input type="text" id="childName" name="childName" required maxlength="50" />
+
+        <label for="birthDate">تاريخ الميلاد *</label>
+        <input type="date" id="birthDate" name="birthDate" required />
+
+        <label for="gender">النوع *</label>
+        <select id="gender" name="gender" required>
+          <option value="">-- اختر --</option>
+          <option value="ذكر">ذكر</option>
+          <option value="أنثى">أنثى</option>
+        </select>
+
+        <label for="parentPhone">رقم ولي الأمر *</label>
+        <input type="tel" id="parentPhone" name="parentPhone" required maxlength="20" pattern="^[0-9+\s-]{8,}$" placeholder="مثال: 01012345678" />
+
+        <label for="unit">رقم الوحدة/الشقة *</label>
+        <input type="text" id="unit" name="unit" required maxlength="15" placeholder="مثال: A15 أو 407" />
+
+        <label for="notes">ملاحظات (اختياري)</label>
+        <textarea id="notes" name="notes" rows="2" maxlength="120" placeholder="أي حساسية، مرض مزمن، ملاحظات عامة..."></textarea>
+
+        <button type="submit" class="submit-btn">حفظ البيانات</button>
+        <div class="msg" id="msg"></div>
+      </form>
+      <!-- روابط التنقل -->
+      <a href="index.html" class="action-btn">⬅️ الصفحة الرئيسية</a>
+    </div>
+  </div>
+  <footer>
+    جميع الحقوق محفوظة © 2025 Genius Tech Co
+  </footer>
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyD3FvIT1JscjY35XozIq-3yCfaZf4awa6k",
+      authDomain: "genz-database.firebaseapp.com",
+      databaseURL: "https://genz-database-default-rtdb.firebaseio.com",
+      projectId: "genz-database",
+      storageBucket: "genz-database.firebasestorage.app",
+      messagingSenderId: "624128432502",
+      appId: "1:624128432502:web:c41ab8052f2f8fd7e60257",
+      measurementId: "G-BW2MFF4VLE"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    document.getElementById("childForm").onsubmit = async function(e) {
+      e.preventDefault();
+      const msg = document.getElementById("msg");
+      msg.textContent = "";
+      msg.className = "msg";
+      const childName = document.getElementById("childName").value.trim();
+      const birthDate = document.getElementById("birthDate").value;
+      const gender = document.getElementById("gender").value;
+      const parentPhone = document.getElementById("parentPhone").value.trim();
+      const unit = document.getElementById("unit").value.trim();
+      const notes = document.getElementById("notes").value.trim();
+      if (!childName || !birthDate || !gender || !parentPhone || !unit) {
+        msg.textContent = "يرجى تعبئة جميع الحقول المطلوبة";
+        msg.className = "msg err";
+        return;
+      }
+      try {
+        const newChildRef = db.ref("children").push();
+        await newChildRef.set({
+          childName,
+          birthDate,
+          gender,
+          parentPhone,
+          unit,
+          notes,
+          createdAt: new Date().toISOString()
+        });
+        msg.textContent = "تم حفظ البيانات بنجاح ✔️";
+        msg.className = "msg ok";
+        document.getElementById("childForm").reset();
+      } catch (err) {
+        msg.textContent = "حدث خطأ أثناء حفظ البيانات. حاول مرة أخرى.";
+        msg.className = "msg err";
+      }
+    };
+  </script>
+</body>
+</html>
