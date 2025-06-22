@@ -122,7 +122,7 @@
     }
     footer {
       background: linear-gradient(90deg,#6366f1 60%, #5eead4 100%);
-      font-size: 10px;
+      font-size: 13px;
       color: #fff;
       font-family: 'Cairo', sans-serif;
       text-align: center;
@@ -138,6 +138,31 @@
       font-weight: 700;
       text-shadow: 0 2px 6px #818cf8cc;
     }
+    .lang-switch {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      z-index: 10;
+      background: #fff6;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      padding: 7px 18px;
+      font-size: 1em;
+      font-family: inherit;
+      font-weight: bold;
+      color: #4f46e5;
+      box-shadow: 0 2px 8px #6366f188;
+      transition: background 0.2s;
+    }
+    .lang-switch:hover {
+      background: #e0e7ff;
+    }
+    @media (max-width: 500px) {
+      .main-content {padding: 10px 1vw 13px 1vw;}
+      .lang-switch { left: 4px; top: 4px; padding: 5px 11px; font-size: .98em;}
+      .back-link {font-size: .95em;}
+    }
   </style>
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -145,21 +170,81 @@
 </head>
 <body>
   <div class="main-content">
-    <h2>تسجيل الدخول للسكان فقط</h2>
+    <button class="lang-switch" id="langSwitch">English</button>
+    <h2 id="loginTitle">تسجيل الدخول للسكان فقط</h2>
     <form id="loginUserForm" autocomplete="off">
-      <label for="email">البريد الإلكتروني</label>
+      <label for="email" id="emailLabel">البريد الإلكتروني</label>
       <input type="email" id="email" required placeholder="أدخل بريدك المسجل" />
-      <label for="password">كلمة السر</label>
+      <label for="password" id="passwordLabel">كلمة السر</label>
       <input type="password" id="password" required minlength="6" autocomplete="current-password" />
-      <button type="submit" class="submit-btn">دخول</button>
+      <button type="submit" class="submit-btn" id="loginBtn">دخول</button>
       <div id="msg" class="msg"></div>
     </form>
-    <a href="index.html" class="back-link">⬅️ عودة للصفحة الرئيسية</a>
+    <a href="index.html" class="back-link" id="backLink">⬅️ عودة للصفحة الرئيسية</a>
   </div>
-  <footer>
-    جميع الحقوق محفوظة © 2025 Genius Tech Co
+  <footer id="footerText">
+    جميع الحقوق محفوظة © 2025 مشروع كمبوند العائلة
   </footer>
   <script>
+    // إعداد النصوص باللغتين
+    const translations = {
+      ar: {
+        dir: "rtl",
+        lang: "ar",
+        loginTitle: "تسجيل الدخول للسكان فقط",
+        emailLabel: "البريد الإلكتروني",
+        emailPlaceholder: "أدخل بريدك المسجل",
+        passwordLabel: "كلمة السر",
+        passwordPlaceholder: "أدخل كلمة السر",
+        loginBtn: "دخول",
+        backLink: "⬅️ عودة للصفحة الرئيسية",
+        msgSuccess: "تم تسجيل الدخول بنجاح...",
+        msgError: "بيانات الدخول غير صحيحة أو ليس لديك إذن بالتسجيل!",
+        footerText: "جميع الحقوق محفوظة © 2025 مشروع كمبوند العائلة",
+        switchText: "English"
+      },
+      en: {
+        dir: "ltr",
+        lang: "en",
+        loginTitle: "Residents Login Only",
+        emailLabel: "Email Address",
+        emailPlaceholder: "Enter your registered email",
+        passwordLabel: "Password",
+        passwordPlaceholder: "Enter your password",
+        loginBtn: "Login",
+        backLink: "⬅️ Back to Home Page",
+        msgSuccess: "Login successful...",
+        msgError: "Login information incorrect or you are not authorized to register!",
+        footerText: "All rights reserved © 2025 Family Compound Project",
+        switchText: "العربية"
+      }
+    };
+
+    let currentLang = "ar";
+
+    function switchLang() {
+      currentLang = (currentLang === "ar") ? "en" : "ar";
+      const t = translations[currentLang];
+
+      document.documentElement.dir = t.dir;
+      document.documentElement.lang = t.lang;
+      document.getElementById("langSwitch").innerHTML = t.switchText;
+      document.getElementById("loginTitle").innerHTML = t.loginTitle;
+      document.getElementById("emailLabel").innerHTML = t.emailLabel;
+      document.getElementById("email").placeholder = t.emailPlaceholder;
+      document.getElementById("passwordLabel").innerHTML = t.passwordLabel;
+      document.getElementById("password").placeholder = t.passwordPlaceholder;
+      document.getElementById("loginBtn").innerHTML = t.loginBtn;
+      document.getElementById("backLink").innerHTML = t.backLink;
+      document.getElementById("footerText").innerHTML = t.footerText;
+
+      // امسح الرسالة عند تغيير اللغة
+      document.getElementById("msg").textContent = "";
+      document.getElementById("msg").className = "msg";
+    }
+
+    document.getElementById("langSwitch").addEventListener("click", switchLang);
+
     // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyD3FvIT1JscjY35XozIq-3yCfaZf4awa6k",
@@ -183,11 +268,11 @@
       const password = document.getElementById("password").value;
       try {
         await auth.signInWithEmailAndPassword(email, password);
-        msg.textContent = "تم تسجيل الدخول بنجاح...";
+        msg.textContent = translations[currentLang].msgSuccess;
         msg.className = "msg ok";
         setTimeout(()=>{ window.location.href = "register.html"; }, 900);
       } catch (err) {
-        msg.textContent = "بيانات الدخول غير صحيحة أو ليس لديك إذن بالتسجيل!";
+        msg.textContent = translations[currentLang].msgError;
         msg.className = "msg err";
       }
     };
