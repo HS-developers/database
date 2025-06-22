@@ -156,11 +156,32 @@
       font-weight: 700;
       text-shadow: 0 2px 6px #818cf8cc;
     }
+    .lang-switch {
+      position: absolute;
+      left: 24px;
+      top: 28px;
+      z-index: 10;
+      background: #fff6;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      padding: 8px 18px;
+      font-size: 1.1em;
+      font-family: inherit;
+      font-weight: bold;
+      color: #4f46e5;
+      box-shadow: 0 2px 8px #6366f188;
+      transition: background 0.2s;
+    }
+    .lang-switch:hover {
+      background: #e0e7ff;
+    }
     @media (max-width: 700px) {
       .header-row { gap: 8px; }
       header h1 { font-size: 1.35em; }
       header h2 { font-size: 1em; }
       .welcome-box { max-width: 98vw; padding: 15px 4vw 19px 4vw; }
+      .lang-switch { left: 8px; top: 8px; padding: 5px 12px; font-size: .98em;}
     }
     @media (max-width: 500px) {
       .header-row { gap: 4px; }
@@ -176,29 +197,83 @@
 </head>
 <body>
   <header>
+    <button class="lang-switch" id="langSwitch">English</button>
     <div class="header-row">
       <div class="header-title">
-        <h1>قاعدة بيانات أبناء الكمبوند</h1>
-        <h2>نسعي لبناء قاعدة بيانات لأبناء الكمبوند للمسابقات والأنشطة</h2>
+        <h1 id="title">قاعدة بيانات أبناء الكمبوند</h1>
+        <h2 id="subtitle">ساهم في بناء قاعدة بيانات لأبناء الكمبوند للمسابقات والأنشطة</h2>
       </div>
     </div>
   </header>
   <div class="main-content">
     <div class="welcome-box">
-      <div class="welcome">
+      <div class="welcome" id="welcomeMsg">
         أهلاً بكم في مشروع قاعدة بيانات أبناء الكمبوند.<br>
         هدفنا جمع بيانات جميع الأطفال لتقديم أنشطة ومسابقات وتحديات تناسب كل فئة عمرية.<br>
         <span style="color:#e11d48">فضلاً ساهم بإدخال بيانات أولادك بدقة.</span>
       </div>
-      <a href="login-user.html" class="action-btn">📝 ابدأ تسجيل بيانات أولادك</a>
-      <!-- تمت إزالة زر قاعدة البيانات للمشرفين من الصفحة الرئيسية -->
-      <div class="note">
+      <a href="login-user.html" class="action-btn" id="startBtn">📝 ابدأ تسجيل بيانات أولادك</a>
+      <div class="note" id="note">
         <b>تنويه:</b> جميع البيانات سرية ولن تستخدم إلا في الأنشطة الداخلية والمناسبات الخاصة بسكان الكمبوند فقط.
       </div>
     </div>
   </div>
-  <footer>
+  <footer id="footer">
     جميع الحقوق محفوظة © 2025 Genius Tech Co
   </footer>
+  <script>
+    // إعداد النصوص باللغتين
+    const translations = {
+      ar: {
+        dir: "rtl",
+        lang: "ar",
+        title: "قاعدة بيانات أبناء الكمبوند",
+        subtitle: "ساهم في بناء قاعدة بيانات لأبناء الكمبوند للمسابقات والأنشطة",
+        welcomeMsg: `أهلاً بكم في مشروع قاعدة بيانات أبناء الكمبوند.<br>
+        هدفنا جمع بيانات جميع الأطفال لتقديم أنشطة ومسابقات وتحديات تناسب كل فئة عمرية.<br>
+        <span style="color:#e11d48">فضلاً ساهم بإدخال بيانات أولادك بدقة.</span>`,
+        startBtn: "📝 ابدأ تسجيل بيانات أولادك",
+        note: `<b>تنويه:</b> جميع البيانات سرية ولن تستخدم إلا في الأنشطة الداخلية والمناسبات الخاصة بسكان الكمبوند فقط.`,
+        footer: "جميع الحقوق محفوظة © 2025 Genius Tech Co",
+        switchText: "English"
+      },
+      en: {
+        dir: "ltr",
+        lang: "en",
+        title: "Compound Kids Database",
+        subtitle: "Contribute to building the compound kids database for competitions & activities",
+        welcomeMsg: `Welcome to the Compound Kids Database project.<br>
+        Our goal is to collect all kids' data to organize activities, challenges, and competitions for every age group.<br>
+        <span style="color:#e11d48">Please enter your children's information accurately.</span>`,
+        startBtn: "📝 Start registering your children",
+        note: `<b>Note:</b> All data is confidential and will only be used for internal activities and residents' events.`,
+        footer: "All rights reserved © 2025 Genius Tech Co",
+        switchText: "العربية"
+      }
+    };
+
+    // الوضع الافتراضي: عربي
+    let currentLang = "ar";
+
+    function switchLang() {
+      currentLang = (currentLang === "ar") ? "en" : "ar";
+      const t = translations[currentLang];
+
+      // تغيير اتجاه الصفحة
+      document.documentElement.dir = t.dir;
+      document.documentElement.lang = t.lang;
+
+      // تغيير النصوص
+      document.getElementById("title").innerHTML = t.title;
+      document.getElementById("subtitle").innerHTML = t.subtitle;
+      document.getElementById("welcomeMsg").innerHTML = t.welcomeMsg;
+      document.getElementById("startBtn").innerHTML = t.startBtn;
+      document.getElementById("note").innerHTML = t.note;
+      document.getElementById("footer").innerHTML = t.footer;
+      document.getElementById("langSwitch").innerHTML = t.switchText;
+    }
+
+    document.getElementById("langSwitch").addEventListener("click", switchLang);
+  </script>
 </body>
 </html>
