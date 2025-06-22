@@ -139,16 +139,16 @@
       text-shadow: 0 2px 6px #818cf8cc;
     }
     .lang-switch {
-      position: absolute;
-      left: 18px;
-      top: 18px;
-      z-index: 10;
+      position: fixed;
+      left: 24px;
+      top: 24px;
+      z-index: 100;
       background: #fff6;
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      padding: 7px 18px;
-      font-size: 1em;
+      padding: 8px 18px;
+      font-size: 1.1em;
       font-family: inherit;
       font-weight: bold;
       color: #4f46e5;
@@ -169,8 +169,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 </head>
 <body>
+  <button class="lang-switch" id="langSwitch">English</button>
   <div class="main-content">
-    <button class="lang-switch" id="langSwitch">English</button>
     <h2 id="loginTitle">تسجيل الدخول للسكان فقط</h2>
     <form id="loginUserForm" autocomplete="off">
       <label for="email" id="emailLabel">البريد الإلكتروني</label>
