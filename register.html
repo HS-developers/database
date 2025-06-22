@@ -204,6 +204,26 @@
       overflow: hidden;
       margin-left: 5px;
     }
+    .lang-switch {
+      position: absolute;
+      left: 24px;
+      top: 20px;
+      z-index: 10;
+      background: #fff6;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      padding: 8px 18px;
+      font-size: 1.1em;
+      font-family: inherit;
+      font-weight: bold;
+      color: #4f46e5;
+      box-shadow: 0 2px 8px #6366f188;
+      transition: background 0.2s;
+    }
+    .lang-switch:hover {
+      background: #e0e7ff;
+    }
     footer {
       background: linear-gradient(90deg,#6366f1 60%, #5eead4 100%);
       font-size: 10px;
@@ -233,6 +253,7 @@
       header h2 { font-size: 0.94em; }
       .form-box { max-width: 98vw; width: 98vw; padding: 15px 4vw 19px 4vw; }
       form { max-width: 98vw; }
+      .lang-switch { left: 6px; top: 8px; padding: 5px 12px; font-size: .98em;}
     }
     @media (max-width: 500px) {
       .header-row { gap: 4px; }
@@ -252,49 +273,136 @@
 </head>
 <body>
   <header>
+    <button class="lang-switch" id="langSwitch">English</button>
     <div class="header-row">
       <div class="header-title">
-        <h1>قاعدة بيانات أبناء الكمبوند</h1>
-        <h2>استمارة تسجيل بيانات الأبناء</h2>
+        <h1 id="mainTitle">قاعدة بيانات أبناء الكمبوند</h1>
+        <h2 id="mainSubtitle">استمارة تسجيل بيانات الأبناء</h2>
       </div>
     </div>
   </header>
   <div class="main-content">
     <div class="form-box">
       <form id="childForm" autocomplete="off">
-        <label for="childName">اسم الطفل/ة بالكامل *</label>
+        <label for="childName" id="childNameLabel">اسم الطفل/ة بالكامل *</label>
         <input type="text" id="childName" name="childName" required maxlength="50" />
 
-        <label for="birthDate">تاريخ الميلاد *</label>
+        <label for="birthDate" id="birthDateLabel">تاريخ الميلاد *</label>
         <input type="date" id="birthDate" name="birthDate" required />
 
-        <label for="gender">النوع *</label>
+        <label for="gender" id="genderLabel">النوع *</label>
         <select id="gender" name="gender" required>
-          <option value="">-- اختر --</option>
-          <option value="ذكر">ذكر</option>
-          <option value="أنثى">أنثى</option>
+          <option value="" id="genderPlaceholder">-- اختر --</option>
+          <option value="ذكر" id="boyOption">ذكر</option>
+          <option value="أنثى" id="girlOption">أنثى</option>
         </select>
 
-        <label for="parentPhone">رقم ولي الأمر *</label>
+        <label for="parentPhone" id="parentPhoneLabel">رقم ولي الأمر *</label>
         <input type="tel" id="parentPhone" name="parentPhone" required maxlength="20" pattern="^[0-9+\s-]{8,}$" placeholder="مثال: 01012345678" />
 
-        <label for="unit">رقم الوحدة/الشقة *</label>
+        <label for="unit" id="unitLabel">رقم الوحدة/الشقة *</label>
         <input type="text" id="unit" name="unit" required maxlength="15" placeholder="مثال: A15 أو 407" />
 
-        <label for="notes">ملاحظات (اختياري)</label>
+        <label for="notes" id="notesLabel">ملاحظات (اختياري)</label>
         <textarea id="notes" name="notes" rows="2" maxlength="120" placeholder="أي حساسية، مرض مزمن، ملاحظات عامة..."></textarea>
 
-        <button type="submit" class="submit-btn">حفظ البيانات</button>
+        <button type="submit" class="submit-btn" id="saveBtn">حفظ البيانات</button>
         <div class="msg" id="msg"></div>
       </form>
       <!-- روابط التنقل -->
-      <a href="index.html" class="action-btn">⬅️ الصفحة الرئيسية</a>
+      <a href="index.html" class="action-btn" id="homeBtn">⬅️ الصفحة الرئيسية</a>
     </div>
   </div>
-  <footer>
+  <footer id="footerText">
     جميع الحقوق محفوظة © 2025 Genius Tech Co
   </footer>
   <script>
+    // إعداد النصوص باللغتين
+    const translations = {
+      ar: {
+        dir: "rtl",
+        lang: "ar",
+        mainTitle: "قاعدة بيانات أبناء الكمبوند",
+        mainSubtitle: "استمارة تسجيل بيانات الأبناء",
+        childNameLabel: "اسم الطفل/ة بالكامل *",
+        birthDateLabel: "تاريخ الميلاد *",
+        genderLabel: "النوع *",
+        genderPlaceholder: "-- اختر --",
+        boyOption: "ذكر",
+        girlOption: "أنثى",
+        parentPhoneLabel: "رقم ولي الأمر *",
+        parentPhonePlaceholder: "مثال: 01012345678",
+        unitLabel: "رقم الوحدة/الشقة *",
+        unitPlaceholder: "مثال: A15 أو 407",
+        notesLabel: "ملاحظات (اختياري)",
+        notesPlaceholder: "أي حساسية، مرض مزمن، ملاحظات عامة...",
+        saveBtn: "حفظ البيانات",
+        homeBtn: "⬅️ الصفحة الرئيسية",
+        msgRequired: "يرجى تعبئة جميع الحقول المطلوبة",
+        msgSuccess: "تم حفظ البيانات بنجاح ✔️",
+        msgError: "حدث خطأ أثناء حفظ البيانات. حاول مرة أخرى.",
+        footerText: "جميع الحقوق محفوظة © 2025 Genius Tech Co",
+        switchText: "English"
+      },
+      en: {
+        dir: "ltr",
+        lang: "en",
+        mainTitle: "Compound Kids Database",
+        mainSubtitle: "Children Registration Form",
+        childNameLabel: "Full Name of the Child *",
+        birthDateLabel: "Date of Birth *",
+        genderLabel: "Gender *",
+        genderPlaceholder: "-- Select --",
+        boyOption: "Boy",
+        girlOption: "Girl",
+        parentPhoneLabel: "Parent's Phone Number *",
+        parentPhonePlaceholder: "e.g.: 01012345678",
+        unitLabel: "Unit/Apartment Number *",
+        unitPlaceholder: "e.g.: A15 or 407",
+        notesLabel: "Notes (optional)",
+        notesPlaceholder: "Any allergies, chronic disease, general notes...",
+        saveBtn: "Save Data",
+        homeBtn: "⬅️ Home Page",
+        msgRequired: "Please fill in all required fields",
+        msgSuccess: "Data saved successfully ✔️",
+        msgError: "An error occurred while saving. Please try again.",
+        footerText: "All rights reserved © 2025 Genius Tech Co",
+        switchText: "العربية"
+      }
+    };
+
+    let currentLang = "ar";
+
+    function switchLang() {
+      currentLang = (currentLang === "ar") ? "en" : "ar";
+      const t = translations[currentLang];
+      document.documentElement.dir = t.dir;
+      document.documentElement.lang = t.lang;
+      document.getElementById("langSwitch").innerHTML = t.switchText;
+      document.getElementById("mainTitle").innerHTML = t.mainTitle;
+      document.getElementById("mainSubtitle").innerHTML = t.mainSubtitle;
+      document.getElementById("childNameLabel").innerHTML = t.childNameLabel;
+      document.getElementById("birthDateLabel").innerHTML = t.birthDateLabel;
+      document.getElementById("genderLabel").innerHTML = t.genderLabel;
+      document.getElementById("genderPlaceholder").innerHTML = t.genderPlaceholder;
+      document.getElementById("boyOption").innerHTML = t.boyOption;
+      document.getElementById("girlOption").innerHTML = t.girlOption;
+      document.getElementById("parentPhoneLabel").innerHTML = t.parentPhoneLabel;
+      document.getElementById("parentPhone").placeholder = t.parentPhonePlaceholder;
+      document.getElementById("unitLabel").innerHTML = t.unitLabel;
+      document.getElementById("unit").placeholder = t.unitPlaceholder;
+      document.getElementById("notesLabel").innerHTML = t.notesLabel;
+      document.getElementById("notes").placeholder = t.notesPlaceholder;
+      document.getElementById("saveBtn").innerHTML = t.saveBtn;
+      document.getElementById("homeBtn").innerHTML = t.homeBtn;
+      document.getElementById("footerText").innerHTML = t.footerText;
+      // clear msg on lang switch
+      document.getElementById("msg").textContent = "";
+      document.getElementById("msg").className = "msg";
+    }
+
+    document.getElementById("langSwitch").addEventListener("click", switchLang);
+
     // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyD3FvIT1JscjY35XozIq-3yCfaZf4awa6k",
@@ -321,7 +429,7 @@
       const unit = document.getElementById("unit").value.trim();
       const notes = document.getElementById("notes").value.trim();
       if (!childName || !birthDate || !gender || !parentPhone || !unit) {
-        msg.textContent = "يرجى تعبئة جميع الحقول المطلوبة";
+        msg.textContent = translations[currentLang].msgRequired;
         msg.className = "msg err";
         return;
       }
@@ -336,11 +444,11 @@
           notes,
           createdAt: new Date().toISOString()
         });
-        msg.textContent = "تم حفظ البيانات بنجاح ✔️";
+        msg.textContent = translations[currentLang].msgSuccess;
         msg.className = "msg ok";
         document.getElementById("childForm").reset();
       } catch (err) {
-        msg.textContent = "حدث خطأ أثناء حفظ البيانات. حاول مرة أخرى.";
+        msg.textContent = translations[currentLang].msgError;
         msg.className = "msg err";
       }
     };
