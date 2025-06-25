@@ -212,17 +212,16 @@
         هدفنا جمع بيانات جميع الأطفال لتقديم أنشطة ومسابقات وتحديات تناسب كل فئة عمرية.<br>
         <span style="color:#e11d48">فضلاً ساهم بإدخال بيانات أولادك بدقة.</span>
       </div>
-      <a href="login-user.html" class="action-btn" id="startBtn">📝 ابدأ تسجيل بيانات أولادك</a>
+      <a href="login-user.html" class="action-btn" id="startBtn"> ابدأ تسجيل بيانات أولادك</a>
       <div class="note" id="note">
         <b>تنويه:</b> جميع البيانات سرية ولن تستخدم إلا في الأنشطة الداخلية والمناسبات الخاصة بسكان الكمبوند فقط.
       </div>
     </div>
   </div>
   <footer id="footer">
-    جميع الحقوق محفوظة © 2025 Genius Tech Co
+    جميع الحقوق محفوظة © 2025 Genius Tech 
   </footer>
   <script>
-    // إعداد النصوص باللغتين
     const translations = {
       ar: {
         dir: "rtl",
@@ -232,7 +231,7 @@
         welcomeMsg: `أهلاً بكم في مشروع قاعدة بيانات أبناء الكمبوند.<br>
         هدفنا جمع بيانات جميع الأطفال لتقديم أنشطة ومسابقات وتحديات تناسب كل فئة عمرية.<br>
         <span style="color:#e11d48">فضلاً ساهم بإدخال بيانات أولادك بدقة.</span>`,
-        startBtn: "📝 ابدأ تسجيل بيانات أولادك",
+        startBtn: " ابدأ تسجيل بيانات أولادك",
         note: `<b>تنويه:</b> جميع البيانات سرية ولن تستخدم إلا في الأنشطة الداخلية والمناسبات الخاصة بسكان الكمبوند فقط.`,
         footer: "جميع الحقوق محفوظة © 2025 Genius Tech Co",
         switchText: "English"
@@ -245,25 +244,22 @@
         welcomeMsg: `Welcome to the Compound Kids Database project.<br>
         Our goal is to collect all kids' data to organize activities, challenges, and competitions for every age group.<br>
         <span style="color:#e11d48">Please enter your children's information accurately.</span>`,
-        startBtn: "📝 Start registering your children",
+        startBtn: " Start registering your children",
         note: `<b>Note:</b> All data is confidential and will only be used for internal activities and residents' events.`,
         footer: "All rights reserved © 2025 Genius Tech Co",
         switchText: "العربية"
       }
     };
 
-    // الوضع الافتراضي: عربي
     let currentLang = "ar";
 
     function switchLang() {
       currentLang = (currentLang === "ar") ? "en" : "ar";
       const t = translations[currentLang];
 
-      // تغيير اتجاه الصفحة
       document.documentElement.dir = t.dir;
       document.documentElement.lang = t.lang;
 
-      // تغيير النصوص
       document.getElementById("title").innerHTML = t.title;
       document.getElementById("subtitle").innerHTML = t.subtitle;
       document.getElementById("welcomeMsg").innerHTML = t.welcomeMsg;
