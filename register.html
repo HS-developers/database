@@ -224,7 +224,6 @@
       form { max-width: 98vw; }
     }
     @media (max-width: 700px) {
-      .kenz-logo { width: 64px; height: 64px;}
       .header-row { gap: 8px; }
       header h1 { font-size: 1.16em; }
       header h2 { font-size: 0.94em; }
@@ -235,7 +234,6 @@
     @media (max-width: 500px) {
       .header-row { gap: 4px; }
       .header-title { padding-right: 5px; }
-      .kenz-logo { width: 45px; height: 45px; margin: 0 0 0 3px;}
       header h1 { font-size: 0.9em; }
       header h2 { font-size: .75em; }
       header { padding: 12px 2px 10px 2px; border-radius: 0 0 10px 10px; }
@@ -247,6 +245,31 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script>
+    // إعداد وحماية الصفحة
+    const firebaseConfig = {
+      apiKey: "AIzaSyD3FvIT1JscjY35XozIq-3yCfaZf4awa6k",
+      authDomain: "genz-database.firebaseapp.com",
+      databaseURL: "https://genz-database-default-rtdb.firebaseio.com",
+      projectId: "genz-database",
+      storageBucket: "genz-database.firebasestorage.app",
+      messagingSenderId: "624128432502",
+      appId: "1:624128432502:web:c41ab8052f2f8fd7e60257",
+      measurementId: "G-BW2MFF4VLE"
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+    // كود الحماية: الرجوع لصفحة تسجيل الدخول إذا لم يكن مسجل دخول
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (!user) {
+        window.location.href = "login-user.html";
+      }
+    });
+
+    // تهيئة قاعدة البيانات
+    const db = firebase.database();
+  </script>
 </head>
 <body>
   <header>
@@ -377,20 +400,6 @@
     }
 
     document.getElementById("langSwitch").addEventListener("click", switchLang);
-
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyD3FvIT1JscjY35XozIq-3yCfaZf4awa6k",
-      authDomain: "genz-database.firebaseapp.com",
-      databaseURL: "https://genz-database-default-rtdb.firebaseio.com",
-      projectId: "genz-database",
-      storageBucket: "genz-database.firebasestorage.app",
-      messagingSenderId: "624128432502",
-      appId: "1:624128432502:web:c41ab8052f2f8fd7e60257",
-      measurementId: "G-BW2MFF4VLE"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
 
     document.getElementById("childForm").onsubmit = async function(e) {
       e.preventDefault();
